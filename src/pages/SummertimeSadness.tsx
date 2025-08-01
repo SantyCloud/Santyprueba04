@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import VoiceNote from "@/components/VoiceNote";
+import MusicPlayer from "@/components/MusicPlayer";
 
 const SummertimeSadness = () => {
   const [currentAudio, setCurrentAudio] = useState<HTMLAudioElement | null>(null);
@@ -88,15 +89,11 @@ const SummertimeSadness = () => {
 
             <div className="border border-primary p-4 bg-gradient-vintage rounded-lg hover:shadow-vintage transition-all duration-300">
               <h2 className="text-sm mb-4 text-primary animate-glow">♡ Controles ♡</h2>
-              <button
-                onClick={playAudio}
-                className="w-full text-left bg-gradient-primary text-primary-foreground hover:shadow-glow transition-all duration-300 p-3 border border-primary rounded-md hover:scale-105 group"
-              >
-                <span className="flex items-center">
-                  ♡ [PLAY] Summertime Sadness - Lana Del Rey
-                  <span className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">☀️</span>
-                </span>
-              </button>
+              <MusicPlayer 
+                songTitle="Summertime Sadness - Lana Del Rey"
+                songPath="/path-to-summertime-sadness.mp3"
+                className="w-full"
+              />
             </div>
 
             <div className="border border-primary p-4 bg-gradient-to-br from-secondary/10 to-primary/10 backdrop-blur-sm rounded-lg hover:shadow-glow transition-all duration-300">
