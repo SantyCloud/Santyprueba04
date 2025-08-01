@@ -18,7 +18,7 @@ const AccessPage = ({ onAccessGranted }: AccessPageProps) => {
   const { toast } = useToast();
   
   // La fecha de aniversario correcta (puedes cambiarla por la real)
-  const anniversaryDate = new Date(2024, 1, 14); // 14 de febrero de 2024 (ejemplo)
+  const anniversaryDate = new Date(2024, 7, 1); // 1 de agosto de 2024 ♡
   
   const handleSubmit = () => {
     if (!selectedDate) {
