@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CalendarIcon, Heart } from "lucide-react";
-import { format } from "date-fns";
+import { Input } from "@/components/ui/input";
+import { Heart, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import FloatingHearts from "@/components/FloatingHearts";
 import { useToast } from "@/hooks/use-toast";
@@ -13,28 +11,23 @@ interface AccessPageProps {
 }
 
 const AccessPage = ({ onAccessGranted }: AccessPageProps) => {
-  const [selectedDate, setSelectedDate] = useState<Date>();
-  const [isOpen, setIsOpen] = useState(false);
+  const [password, setPassword] = useState("");
   const { toast } = useToast();
   
-  // La fecha de aniversario correcta (puedes cambiarla por la real)
-  const anniversaryDate = new Date(2024, 7, 1); // 1 de agosto de 2024 ♡
+  // La contraseña correcta
+  const correctPassword = "SantyLoveAida";
   
   const handleSubmit = () => {
-    if (!selectedDate) {
+    if (!password.trim()) {
       toast({
-        title: "Selecciona una fecha ♡",
-        description: "¿Cuál es nuestra fecha especial?",
+        title: "Ingresa la contraseña ♡",
+        description: "¿Cuál es nuestra palabra especial?",
         variant: "destructive"
       });
       return;
     }
     
-    // Comparar solo día, mes y año
-    const selected = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
-    const anniversary = new Date(anniversaryDate.getFullYear(), anniversaryDate.getMonth(), anniversaryDate.getDate());
-    
-    if (selected.getTime() === anniversary.getTime()) {
+    if (password === correctPassword) {
       toast({
         title: "¡Acceso concedido! ♡",
         description: "Bienvenida a nuestro lugar especial, mi amor",
@@ -43,8 +36,8 @@ const AccessPage = ({ onAccessGranted }: AccessPageProps) => {
       setTimeout(() => onAccessGranted(), 1500);
     } else {
       toast({
-        title: "Fecha incorrecta ♡",
-        description: "¿Estás segura que esa es nuestra fecha especial?",
+        title: "Contraseña incorrecta ♡",
+        description: "¿Estás segura que esa es nuestra palabra especial?",
         variant: "destructive"
       });
     }
@@ -94,46 +87,31 @@ const AccessPage = ({ onAccessGranted }: AccessPageProps) => {
         {/* Instructions */}
         <div className="space-y-4 animate-fadeInUp" style={{ animationDelay: '0.3s' }}>
           <h2 className="text-xl font-playfair bg-gradient-primary bg-clip-text text-transparent">
-            ¿Cuál es nuestra fecha especial?
+            ¿Cuál es nuestra palabra especial?
           </h2>
           <p className="text-sm opacity-80 font-dancing text-lg">
-            Selecciona el día que cambió nuestras vidas para siempre ♡
+            Ingresa la contraseña de nuestro amor ♡
           </p>
         </div>
 
-        {/* Date picker */}
+        {/* Password input */}
         <div className="space-y-6 animate-fadeInUp" style={{ animationDelay: '0.5s' }}>
-          <Popover open={isOpen} onOpenChange={setIsOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={cn(
-                  "w-full justify-start text-left font-normal bg-gradient-to-r from-primary/10 to-secondary/10 backdrop-blur-sm border-primary hover:bg-gradient-primary hover:text-primary-foreground transition-all duration-300 hover:shadow-glow hover:scale-105",
-                  !selectedDate && "text-muted-foreground"
-                )}
-              >
-                <CalendarIcon className="mr-2 h-4 w-4" />
-                {selectedDate ? format(selectedDate, "dd/MM/yyyy") : <span>Selecciona nuestra fecha ♡</span>}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0 bg-black border-primary" align="center">
-              <Calendar
-                mode="single"
-                selected={selectedDate}
-                onSelect={(date) => {
-                  setSelectedDate(date);
-                  setIsOpen(false);
-                }}
-                className="pointer-events-auto border-primary"
-                disabled={(date) => date > new Date()}
-              />
-            </PopoverContent>
-          </Popover>
+          <div className="relative">
+            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-primary/60" />
+            <Input
+              type="password"
+              placeholder="Nuestra palabra secreta ♡"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
+              className="pl-10 bg-gradient-to-r from-primary/10 to-secondary/10 backdrop-blur-sm border-primary hover:border-primary/80 focus:border-primary text-primary placeholder:text-primary/60 font-mono"
+            />
+          </div>
 
           <Button
             onClick={handleSubmit}
             className="w-full bg-gradient-primary hover:shadow-glow hover:scale-105 transition-all duration-300 text-primary-foreground font-semibold py-3"
-            disabled={!selectedDate}
+            disabled={!password.trim()}
           >
             <Heart className="mr-2 h-4 w-4 fill-current" />
             Entrar a nuestro mundo ♡
